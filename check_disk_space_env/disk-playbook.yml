@@ -1,0 +1,10 @@
+---
+- name: Check space
+  hosts: all
+  tasks:
+    - name: Check disk space
+      shell: df -h | grep /dev/mapper/centos-root
+      register: disk
+
+    - debug:
+        var: disk.stdout

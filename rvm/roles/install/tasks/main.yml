@@ -1,0 +1,21 @@
+---
+#installing rvm and ruby
+- name: install rvm
+  shell: /root/rvm.sh stable --gems=rails,bundler
+  when: rvm_check|failed
+
+- name: run source for rvm
+  shell: source /usr/local/rvm/bin/rvm | source /etc/profile.d/rvm.sh
+  when: rvm_check|failed
+
+- name: reload rvm
+  shell: "{{ rvm_use }} reload "
+  when: rvm_check|failed
+
+- name: rvm requirements
+  shell: "{{ rvm_use }} requirements run"
+  when: rvm_check|failed
+
+- name: default version of ruby
+  shell: "{{ rvm_use }} use ruby-2.4.1 --default"
+  when: rvm_check|failed

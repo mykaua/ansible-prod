@@ -1,0 +1,7 @@
+---
+- name: check queues
+  shell: rabbitmqctl list_queues
+  register: qus
+
+- debug:
+    var: qus.stdout_lines

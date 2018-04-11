@@ -1,0 +1,12 @@
+{
+    "storage-driver": "devicemapper",
+    "storage-opts": [
+    "dm.thinpooldev=/dev/mapper/vg_data-lv_dockerpool",
+    "dm.use_deferred_removal=true"
+    ],
+    "log-driver": "json-file",
+    "log-opts": {
+        "max-size": "50m",
+        "max-file": "3"
+    }
+}

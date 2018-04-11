@@ -1,0 +1,6 @@
+---
+- name: check swarm
+  hosts: all
+  roles:
+    - {role: docker_swarm, tags: swarm}
+    - {role: services, tags: service}

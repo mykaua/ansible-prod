@@ -1,0 +1,12 @@
+---
+- name: Enable Management Plugin
+  gather_facts: no
+  hosts: all
+  roles:
+    - { role: 'plugin', tags: 'plugin' }
+    - { role: 'users', user_name: monitor, password: monitor, user_tag: monitoring, tags: 'user_add' }
+
+#example command line, add user
+# ansible-playbook main.yml -e "user_name=hi password=admin user_tag=admin" -t "user_add"
+# -e -- extra-vars
+# -t -- tags

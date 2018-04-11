@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# options
+backup_path="/root/mysql_backup"
+date=$(date +"%d-%b-%Y")
+host=127.0.0.1
+port=33306
+list=list.txt
+user=root
+pass=root
+
+# Set default file permissions
+umask 177
+
+# Dump database into SQL file
+mysql --port $port -u$user -p$pass -h $host -e 'show databases' | tr -d "| " | grep -v Database | grep -v information_schema | grep -v performance_schema | grep -v mysql > $backup_path/$list
+for i in `cat $backup_path/$list`;do mysqldump --port $port -u$user -p$pass -h $host $i > $backup_path/$i-$date.sql; done
+
+# Delete files older than 3 days
+find $backup_path/*.sql -mtime +3 -exec rm {} \;
+
+
+#How to restore database:
+#mysql --port 33306 -uroot -pdummy -h 127.0.0.1 name_database < database.sql
+
+#example
+#mysql --port 33306 -uroot -pdummy -h 127.0.0.1 testdb < banking_production-11-Oct-2017.sql

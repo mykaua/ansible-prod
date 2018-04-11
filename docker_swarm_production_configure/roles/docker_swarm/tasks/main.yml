@@ -1,0 +1,50 @@
+---
+# --- Activate Docker swarm and add regist ---
+#- name: Activate Docker swarm
+#  shell: docker swarm init
+#  register: swarm_active
+
+- name: Check  Docker
+  shell: docker ps
+  register: active
+
+- name: Check if Active Docker swarm
+  debug:
+    msg: "{{active}}" #{{swarm_active}}
+
+- name: check if can download images
+  shell: docker pull docker-prod.fidor.intern:5000/oney/adapter:master
+  register: pull
+
+- name: result
+  debug:
+    msg: "{{pull}}"
+
+#- name: create certs.d directory
+#  file:
+#    path: /etc/docker/certs.d
+#    state: directory
+#    mode: 0755
+#  register: certs_d
+
+#- name: create docker-prod directory
+#  file:
+#    path: /etc/docker/certs.d/docker-prod.fidor.intern:5000
+#    state: directory
+#    mode: 0755
+#  register: fidor_prod
+
+#- debug:
+#    msg: "{{fidor_prod.path}}"
+
+#- name: copy certs
+#  copy:
+#    src: ca.crt
+#    dest: "{{fidor_prod.path}}"
+#    mode: 0644
+
+#- name: copy daemon
+#  copy:
+#    src: daemon.json
+#    dest: /etc/docker/
+#    mode: 0644

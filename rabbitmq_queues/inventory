@@ -1,0 +1,7 @@
+[nodes]
+node[01:09].example.com ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=
+
+[rabbit]
+rabbit-test[01:03].example.com ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=
+rabbit-stage.example.com ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=
+rabbit-uat.example.com ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=

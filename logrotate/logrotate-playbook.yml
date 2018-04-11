@@ -1,0 +1,7 @@
+---
+- name: Set logrotate for docker
+  hosts: all
+  tasks:
+    - name: Copy logrotate file
+      template: src=files/docker-container.j2 dest=/etc/logrotate.d/docker-container
+      

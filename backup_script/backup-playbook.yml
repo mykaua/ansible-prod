@@ -1,0 +1,29 @@
+---
+# install mysql backup script for sandboxes
+- name: Mysql backup
+  hosts: all
+  tasks:
+    - name: Create directory
+      file:
+        path: /root/mysql_backup
+        state: directory
+        mode: 0755
+
+    - name: Copy logrotate file
+      template: src=files/backup.j2 dest=/root/mysql_backup/backup.sh
+
+    - name: Create list file
+      file:
+        path: /root/mysql_backup/list.txt
+        owner: root
+        group: root
+        mode: 0644
+        state: touch
+
+#20 01 * * * /usr/bin/sh /root/mysql_backup/backup.
+    - name: cron backup
+      cron:
+        name: "run backup script"
+        minute: "20"
+        hour: "1"
+        job: "/usr/bin/sh /root/mysql_backup/backup.sh"

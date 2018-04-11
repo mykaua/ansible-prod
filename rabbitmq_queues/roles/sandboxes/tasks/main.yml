@@ -1,0 +1,14 @@
+---
+- name: Find rabbitmq
+  shell: docker ps | grep rabbitm | awk '{print $1}'
+  register: rabbit
+
+#    - debug:
+#        var: rabbit.stdout
+
+- name: check queues
+  shell: docker exec -i {{rabbit.stdout}} rabbitmqctl list_queues
+  register: queues
+
+- debug:
+    var: queues.stdout_lines

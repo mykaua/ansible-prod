@@ -1,0 +1,53 @@
+---
+#Copy ssh keys and check git access
+- name: rename_ssh directory
+  shell: mv /home/deploy/.ssh /home/deploy/.ssh_old
+
+- name: create .ssh directory
+  file:
+    path: /home/deploy/.ssh
+    owner: deploy
+    group: deploy
+    state: directory
+    mode: 0700
+
+- name: copy ssh keys
+  copy:
+    src: "{{item}}"
+    dest: /home/deploy/.ssh
+    owner: deploy
+    group: deploy
+    mode: 0644
+  with_fileglob:
+    - authorized_keys
+    - id_rsa
+    - id_rsa.pub
+    - known_hosts
+
+- name: change  key
+  file:
+    path: '/home/deploy/.ssh/{{item}}'
+    owner: deploy
+    group: deploy
+    mode: 0600
+  with_items:
+    - id_rsa
+    - authorized_keys
+
+- name: check git
+  git:
+    repo: git@github.fidor.de:oney/api_specs.git
+    dest: /home/deploy/testing
+    accept_hostkey: yes
+    force: yes
+    key_file: /home/deploy/.ssh/id_rsa
+  register: git_check
+
+- name: debug_git
+  debug:
+    msg: "{{git_check}}"
+
+- name: remove temporary git
+  file:
+    path: /home/deploy/testing
+    state: absent

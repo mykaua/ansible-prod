@@ -1,0 +1,30 @@
+---
+  # copy conf file(systemd)
+- name: copy configure
+  template:
+    src: docker.conf.j2
+    dest: /etc/systemd/system/docker.service.d/docker.conf
+    owner: root
+    group: root
+    mode: 0644
+
+#- name: restart docker
+#  service:
+#    name: docker
+#    state: restarted
+
+- name: restart systemctl
+  shell: systemctl daemon-reload
+
+- name: restart docker
+  service:
+    name: docker
+    state: restarted
+
+
+- name: check port
+  shell: ss -tunlp | grep 2375
+  register: port
+
+- debug:
+    var: port.stdout

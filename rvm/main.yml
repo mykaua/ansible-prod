@@ -1,0 +1,8 @@
+---
+- name: install rvm
+  gather_facts: no
+  hosts: all
+  roles:
+    - {role: 'key', tags: 'key'}
+    - {role: 'install', tags: 'install'}
+    - {role: 'user', tags: 'user'}

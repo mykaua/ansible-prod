@@ -1,0 +1,12 @@
+---
+- name: Check rabbitmq queues on sandboxes
+  hosts: nodes
+  gather_facts: no
+  roles:
+    - {role: sandboxes, tags: "sandboxes"}
+
+- name: Check rabbitmq queues on cluster
+  hosts: rabbit
+  gather_facts: no
+  roles:
+    - {role: cluster, tags: "cluster"}

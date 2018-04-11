@@ -1,0 +1,28 @@
+---
+# copy key and get script for installing
+- name: check if rvm installed
+  shell: /usr/local/rvm/bin/rvm
+  register: rvm_check
+  ignore_errors: True
+
+- name: copy key
+  copy:
+    src: files/mpapis.asc
+    dest: /root/mpapis.asc
+    owner: root
+    group: root
+    mode: 0644
+  when: rvm_check|failed
+
+- name: add key
+  shell: gpg --import /root/mpapis.asc
+  when: rvm_check|failed
+
+- name: copy installer
+  copy:
+    src: files/rvm.sh
+    dest: /root/rvm.sh
+    owner: root
+    group: root
+    mode: 0777
+  when: rvm_check|failed

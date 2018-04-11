@@ -1,0 +1,22 @@
+---
+# add log rotation
+- name: copy configure for log
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: restart docker
+  service:
+    name: docker
+    state: restarted
+
+- name: check docker
+  shell: docker node ls
+  register: node
+
+- debug:
+    var: node.stdout_lines

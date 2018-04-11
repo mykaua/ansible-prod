@@ -1,0 +1,16 @@
+---
+# add user to group rvm and check rvm under user
+- name: add deploy user to group rvm
+  user:
+    name: deploy
+    groups: rvm
+    append: yes
+
+- name: check rvm under deploy user
+  shell: /usr/local/rvm/bin/rvm
+  become: true
+  become_user: deploy
+  register: check
+
+- debug:
+    var: check.stdout_lines
